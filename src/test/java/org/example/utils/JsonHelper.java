@@ -15,7 +15,7 @@ public class JsonHelper {
             return new JSONParser().parse(fr).toString();
         } catch (IOException | ParseException e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 

@@ -2,7 +2,7 @@ package org.example.tests;
 
 import org.example.Global;
 import org.example.setup.DriverSetup;
-import org.example.utils.DeviceProvider;
+import org.example.utils.DeviceHelper;
 import org.example.utils.EnvHelper;
 import org.example.utils.FileHelper;
 import org.example.utils.devices.DeviceType;
@@ -15,26 +15,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BaseTest implements Global {
-    public static EnvHelper env;
-    ThreadLocal<DeviceType> device = new ThreadLocal<>();
-    ThreadLocal<String> testName = new ThreadLocal<>();
-    DeviceProvider deviceProvider = new DeviceProvider(appType);
-    String appPack;
+    ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
+    ThreadLocal<String> testThread = new ThreadLocal<>();
+    DeviceHelper deviceHelper = new DeviceHelper(appType).loadDevices();
+    EnvHelper env;
 
     @BeforeMethod
     public void setUp(Method method) {
         Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
-        testName.set(method.getDeclaringClass().getSimpleName() + "_" + method.getName());
-        device.set(deviceProvider.getDevice(deviceName));
-        DriverSetup.startDriver(device.get());
-        appPack = DriverSetup.getAppPack();
-        env = FileHelper.getEnv("com.example.org"); // replace "com.example.org" with appPack
+        String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
+        DeviceType deviceType = deviceHelper.getDevice(deviceName);
+
+        DriverSetup.startDriver(deviceType);
+        String appPack = DriverSetup.getAppPack();
+        env = FileHelper.getEnv("com.example.org");
+
+        testThread.set(test);
+        deviceThread.set(deviceType);
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        FileHelper.takeScreenShot(DriverSetup.getAppiumDriver(), testName.get());
+        FileHelper.takeScreenShot(DriverSetup.getAppiumDriver(), testThread.get());
         DriverSetup.closeDriver();
-        deviceProvider.deviceUnlock(device.get().getId());
+        deviceHelper.deviceUnlock(deviceThread.get().getId());
     }
 }

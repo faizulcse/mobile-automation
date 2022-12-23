@@ -7,33 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandLineHelper {
-    public static List<String> getAndroidDevices() {
-        List<String> devices = execute("adb devices");
-        devices.remove("List of devices attached");
-        List<String> list = new ArrayList<>();
-        for (String device : devices) {
-            if (device.contains("device"))
-                list.add(device.split("\\s+")[0]);
-        }
-        return list;
-    }
-
-    public static List<String> getIosDevices() {
-        List<String> devices = execute("xcrun simctl list devices | grep 'Booted'");
-        List<String> list = new ArrayList<>();
-
-        for (String device : devices) {
-            String info = (device.split("(Booted)")[0]).trim();
-            String[] word = info.split("\\(");
-            String[] model = word[0].split("\\s");
-            String deviceName = model[0] + " ";
-            String osVersion = model[1] + " ";
-            String udid = word[1].replace(")", "").trim();
-            list.add(deviceName + osVersion + udid);
-        }
-        return list;
-    }
-
     public static List<String> execute(String command) {
         boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
         List<String> builderList = new ArrayList<>();

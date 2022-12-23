@@ -27,9 +27,15 @@ public class FileHelper {
     }
 
     public static EnvHelper getEnv(String appPack) {
-        String file = JsonHelper.readJsonFile(rootDir + "src/test/java/org/example/utils/data/env.json");
-        JsonObject jsonObject = JsonHelper.getJsonObject(file).getAsJsonObject(appPack);
-        return (EnvHelper) JsonHelper.getJsonObject(jsonObject.toString(), EnvHelper.class);
+        String file = JsonHelper.readJsonFile(rootDir + "src/test/java/org/example/utils/data/elnv.json");
+        JsonObject envList = new JsonObject();
+        try {
+            envList = JsonHelper.getJsonObject(file);
+            String env = envList.getAsJsonObject(appPack).toString();
+            return (EnvHelper) JsonHelper.getJsonObject(env, EnvHelper.class);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("No EnvData found with [%s]: =====> Available EnvData: %s", appPack, envList.keySet()));
+        }
     }
 
     public static void takeScreenShot(AppiumDriver<MobileElement> driver, String screenshot) {
