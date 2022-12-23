@@ -12,5 +12,5 @@ public interface Global {
     String langName = app.getString("LANGUAGE").toLowerCase();
     String appType = app.getString("APP_TYPE").toLowerCase();
     boolean isIos = appType.equals("ios");
-    String deviceName = app.getString(isIos ? "IOS_DEVICE_NAME" : "ANDROID_DEVICE_NAME");
+    String deviceName = app.getString(isIos ? "IOS_DEVICE" : "ANDROID_DEVICE");
 }
