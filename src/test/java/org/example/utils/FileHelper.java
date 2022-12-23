@@ -34,7 +34,7 @@ public class FileHelper {
             String env = envList.getAsJsonObject(appPack).toString();
             return (EnvHelper) JsonHelper.getJsonObject(env, EnvHelper.class);
         } catch (Exception e) {
-            throw new RuntimeException(String.format("No EnvData found with [%s]: =====> Available EnvData: %s", appPack, envList.keySet()));
+            throw new RuntimeException(String.format("No EnvData found with [%s] ===> Available: %s", appPack, envList.keySet()));
         }
     }
 
