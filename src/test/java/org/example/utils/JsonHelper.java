@@ -14,7 +14,6 @@ public class JsonHelper {
         try (FileReader fr = new FileReader(jsonFile)) {
             return new JSONParser().parse(fr).toString();
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

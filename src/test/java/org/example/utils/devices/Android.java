@@ -1,5 +1,6 @@
 package org.example.utils.devices;
 
+import org.example.utils.Command;
 import org.example.utils.CommandLine;
 
 public class Android extends DeviceType {
@@ -12,10 +13,10 @@ public class Android extends DeviceType {
     }
 
     public String getPlatformVersion() {
-        return CommandLine.execute(String.format("adb -s %s shell getprop ro.build.version.release", getId())).get(0);
+        return CommandLine.execute(String.format(Command.ANDROID_PLATFORM_VERSION, getId())).get(0);
     }
 
     public String getUdid() {
-        return CommandLine.execute(String.format("adb -s %s shell 'settings get secure android_id'", getId())).get(0);
+        return CommandLine.execute(String.format(Command.ANDROID_DEVICE_UDID, getId())).get(0);
     }
 }

@@ -22,7 +22,7 @@ public class FileHelper {
             File[] list = new File(rootDir).listFiles((dir, file) -> file.endsWith(name));
             return list != null ? list[0].getAbsolutePath() : null;
         } catch (Exception e) {
-            throw new RuntimeException(String.format("No such file [*%s] found.", name));
+            throw new RuntimeException(String.format(ErrorMsg.APP_FILE_NOT_FOUND, name));
         }
     }
 
@@ -34,7 +34,7 @@ public class FileHelper {
             String env = envList.getAsJsonObject(appPack).toString();
             return (EnvHelper) JsonHelper.getJsonObject(env, EnvHelper.class);
         } catch (Exception e) {
-            throw new RuntimeException(String.format("No EnvData found with [%s] ===> Available: %s", appPack, envList.keySet()));
+            throw new RuntimeException(String.format(ErrorMsg.ENV_DATA_NOT_FOUND, appPack, envList.keySet()));
         }
     }
 

@@ -11,8 +11,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BaseTest implements Global {
     public ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
@@ -22,7 +20,6 @@ public class BaseTest implements Global {
 
     @BeforeMethod
     public void setUp(Method method) {
-        Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
         String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
         DeviceType deviceType = deviceHelper.loadDevices().getDevice(deviceName);
 

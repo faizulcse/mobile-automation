@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class DeviceHelper {
     HashMap<String, Boolean> udid = new HashMap<>();
-    String iosCommand = "xcrun xctrace list devices | grep 'Booted'";
-    String androidCommand = "adb devices";
     String appType;
     boolean isIos;
 
@@ -24,7 +22,7 @@ public class DeviceHelper {
     public DeviceHelper loadDevices() {
         List<String> devices = isIos ? getIosDevices() : getAndroidDevices();
         if (devices.size() == 0)
-            throw new RuntimeException(String.format("No %s devices connected", appType));
+            throw new RuntimeException(String.format(ErrorMsg.NO_DEVICES_CONNECTED, appType));
         for (String id : devices)
             udid.putIfAbsent(id, true);
         return this;
@@ -56,12 +54,12 @@ public class DeviceHelper {
                     return deviceLock(device.getKey());
             }
         }
-        throw new RuntimeException(String.format("No %s device available for running test.", appType));
+        throw new RuntimeException(String.format(ErrorMsg.NO_AVAILABLE_DEVICES, appType));
     }
 
     private List<String> getAndroidDevices() {
-        List<String> devices = CommandLine.execute(androidCommand);
-        devices.remove("List of devices attached");
+        List<String> devices = CommandLine.execute(Command.ADB_DEVICES_COMMAND);
+        devices.remove(Command.ATTACHED_DEVICES_MSG);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
             if (device.contains("device"))
@@ -71,7 +69,7 @@ public class DeviceHelper {
     }
 
     private List<String> getIosDevices() {
-        List<String> devices = CommandLine.execute(iosCommand);
+        List<String> devices = CommandLine.execute(Command.IOS_DEVICE_COMMAND);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
             String info = (device.split("(Booted)")[0]).trim();
