@@ -2,8 +2,8 @@
 
 ### Setup project:
 
-- Clone git repo using `git clone https://github.com/busgroup/teq-ui-automation.git`
-- Install **node.js** download [link](https://nodejs.org/en/download/)
+- Clone git repo using `https://github.com/faizulcse/mobile-automation.git`
+- Install **node.js** [download](https://nodejs.org/en/download/) link
 - Install **appium** using npm command `npm install -g --force appium`
 
 **Add ENV variables:**
@@ -19,7 +19,8 @@
 
 ### Run Tests:
 
-- **APK** or **IPA** file should be placed in the project root dir before run tests
+- Before run tests **APK** or **IPA** file should be placed in the project root dir
+- From `src/test/resources/app-config.properties` rename `APP_TYPE=android` or `APP_TYPE=ios`
 - Open terminal
 - Go to project root directory
 - Run `mvn clean test`
