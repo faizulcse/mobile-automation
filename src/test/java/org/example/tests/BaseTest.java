@@ -15,16 +15,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BaseTest implements Global {
-    ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
-    ThreadLocal<String> testThread = new ThreadLocal<>();
-    DeviceHelper deviceHelper = new DeviceHelper(appType).loadDevices();
-    EnvHelper env;
+    public ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
+    public ThreadLocal<String> testThread = new ThreadLocal<>();
+    public DeviceHelper deviceHelper = new DeviceHelper(appType);
+    public EnvHelper env;
 
     @BeforeMethod
     public void setUp(Method method) {
         Logger.getLogger("org.openqa.selenium").setLevel(Level.OFF);
         String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
-        DeviceType deviceType = deviceHelper.getDevice(deviceName);
+        DeviceType deviceType = deviceHelper.loadDevices().getDevice(deviceName);
 
         DriverSetup.startDriver(deviceType);
         String appPack = DriverSetup.getAppPack();

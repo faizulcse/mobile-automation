@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandLineHelper {
+public class CommandLine {
     public static List<String> execute(String command) {
         boolean windows = System.getProperty("os.name").toLowerCase().contains("windows");
         List<String> builderList = new ArrayList<>();

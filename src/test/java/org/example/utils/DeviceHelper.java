@@ -24,7 +24,7 @@ public class DeviceHelper {
     public DeviceHelper loadDevices() {
         List<String> devices = isIos ? getIosDevices() : getAndroidDevices();
         if (devices.size() == 0)
-            throw new RuntimeException("No " + appType + " devices connected");
+            throw new RuntimeException(String.format("No %s devices connected", appType));
         for (String id : devices)
             udid.putIfAbsent(id, true);
         return this;
@@ -56,11 +56,11 @@ public class DeviceHelper {
                     return deviceLock(device.getKey());
             }
         }
-        throw new RuntimeException("No available device for running test");
+        throw new RuntimeException(String.format("No %s device available for running test.", appType));
     }
 
     private List<String> getAndroidDevices() {
-        List<String> devices = CommandLineHelper.execute(androidCommand);
+        List<String> devices = CommandLine.execute(androidCommand);
         devices.remove("List of devices attached");
         List<String> list = new ArrayList<>();
         for (String device : devices) {
@@ -71,7 +71,7 @@ public class DeviceHelper {
     }
 
     private List<String> getIosDevices() {
-        List<String> devices = CommandLineHelper.execute(iosCommand);
+        List<String> devices = CommandLine.execute(iosCommand);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
             String info = (device.split("(Booted)")[0]).trim();

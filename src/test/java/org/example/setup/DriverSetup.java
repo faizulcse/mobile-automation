@@ -8,8 +8,8 @@ import org.example.utils.devices.DeviceType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class DriverSetup {
-    private final static ThreadLocal<AppiumHelper> appiumThread = new ThreadLocal<>();
-    private final static ThreadLocal<AppiumDriver<MobileElement>> driverThread = new ThreadLocal<>();
+    public final static ThreadLocal<AppiumHelper> appiumThread = new ThreadLocal<>();
+    public final static ThreadLocal<AppiumDriver<MobileElement>> driverThread = new ThreadLocal<>();
 
     public static void startDriver(DeviceType type) {
         try {
@@ -18,7 +18,7 @@ public class DriverSetup {
             AppiumDriver<MobileElement> driver = new AppiumDriver<>(appium.getUrl(), caps);
             driverThread.set(driver);
             appiumThread.set(appium);
-            System.out.println("App(" + type.getPlatformName() + "): ===> " + getAppPack());
+            System.out.printf("App(%s): ===> %s%n", type.getPlatformName(), getAppPack());
         } catch (Exception e) {
             e.printStackTrace();
         }

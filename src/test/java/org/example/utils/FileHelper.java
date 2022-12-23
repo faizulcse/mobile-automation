@@ -22,7 +22,7 @@ public class FileHelper {
             File[] list = new File(rootDir).listFiles((dir, file) -> file.endsWith(name));
             return list != null ? list[0].getAbsolutePath() : null;
         } catch (Exception e) {
-            throw new RuntimeException("No such file [*" + name + "] found.");
+            throw new RuntimeException(String.format("No such file [*%s] found.", name));
         }
     }
 
