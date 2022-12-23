@@ -8,9 +8,7 @@ import org.example.utils.FileHelper;
 import org.example.utils.devices.DeviceType;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;
@@ -20,17 +18,8 @@ public class BaseTest implements Global {
     public static EnvHelper env;
     ThreadLocal<DeviceType> device = new ThreadLocal<>();
     ThreadLocal<String> testName = new ThreadLocal<>();
-    DeviceProvider deviceProvider;
+    DeviceProvider deviceProvider = new DeviceProvider(appType);
     String appPack;
-
-    @BeforeTest
-    public void beforeTest() {
-        deviceProvider = new DeviceProvider(appType);
-    }
-
-    @AfterTest
-    public void afterTest() {
-    }
 
     @BeforeMethod
     public void setUp(Method method) {
