@@ -27,7 +27,7 @@ public class FileHelper {
     }
 
     public static EnvHelper getEnv(String appPack) {
-        String file = JsonHelper.readJsonFile(rootDir + "src/test/java/org/example/utils/data/elnv.json");
+        String file = JsonHelper.readJsonFile(rootDir + "src/test/java/org/example/utils/data/env.json");
         JsonObject envList = new JsonObject();
         try {
             envList = JsonHelper.getJsonObject(file);
