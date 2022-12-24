@@ -19,7 +19,7 @@ public class CommandLine {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             String line;
-            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+            while ((line = reader.readLine()) != null) {
                 output.add(line);
             }
             return output;

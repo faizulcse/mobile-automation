@@ -22,7 +22,7 @@ public class DeviceHelper {
     public DeviceHelper loadDevices() {
         List<String> devices = isIos ? getIosDevices() : getAndroidDevices();
         if (devices.size() == 0)
-            throw new RuntimeException(String.format(InfoMsg.NO_DEVICES_CONNECTED, appType));
+            throw new RuntimeException(String.format(LogMsg.NO_DEVICES_CONNECTED, appType));
         for (String id : devices)
             udid.putIfAbsent(id, true);
         return this;
@@ -54,7 +54,7 @@ public class DeviceHelper {
                     return deviceLock(device.getKey());
             }
         }
-        throw new RuntimeException(String.format(InfoMsg.NO_AVAILABLE_DEVICES, appType));
+        throw new RuntimeException(String.format(LogMsg.NO_AVAILABLE_DEVICES, appType));
     }
 
     private List<String> getAndroidDevices() {
@@ -70,15 +70,17 @@ public class DeviceHelper {
 
     private List<String> getIosDevices() {
         List<String> devices = CommandLine.execute(Command.IOS_DEVICE_COMMAND);
+        devices.remove(Command.IOS_DEVICES_MSG);
+        devices.remove(Command.IOS_SIMULATORS_MSG);
+        devices.remove(0);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
-            String info = (device.split("(Booted)")[0]).trim();
-            String[] word = info.split("\\(");
-            String[] model = word[0].split("\\s");
-            String deviceName = model[0] + " ";
-            String osVersion = model[1] + " ";
-            String udid = word[1].replace(")", "").trim();
-            list.add(deviceName + osVersion + udid);
+            if (device.isEmpty()) break;
+            String[] words = device.replaceAll("\\(", "").replaceAll("\\)", "").split("\\s");
+            String udid = words[words.length - 1].trim();
+            String osVersion = words[words.length - 2].trim();
+            String deviceName = device.split(String.format("\\(%s\\)", osVersion))[0].trim();
+            list.add(String.format("%s %s %s", deviceName, osVersion, udid));
         }
         return list;
     }

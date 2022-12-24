@@ -7,4 +7,5 @@ public interface Command {
     String ANDROID_DEVICE_UDID = "adb -s %s shell 'settings get secure android_id'";
     String IOS_DEVICE_COMMAND = "xcrun xctrace list devices";
     String IOS_DEVICES_MSG = "== Devices ==";
+    String IOS_SIMULATORS_MSG = "== Simulators ==";
 }
