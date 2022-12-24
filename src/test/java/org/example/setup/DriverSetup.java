@@ -40,7 +40,7 @@ public class DriverSetup {
     public static void closeDriver() {
         try {
             if (driverThread.get() != null) driverThread.get().quit();
-            appiumThread.get().stopServer();
+            if (appiumThread.get() != null) appiumThread.get().stopServer();
         } catch (Exception e) {
             e.printStackTrace();
         }

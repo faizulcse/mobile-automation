@@ -17,14 +17,13 @@ public class DeviceHelper {
     public DeviceHelper(String appType) {
         this.appType = appType.toLowerCase();
         this.isIos = appType.contains("ios");
+        for (String id : isIos ? getIosDevices() : getAndroidDevices())
+            udid.putIfAbsent(id, true);
     }
 
-    public DeviceHelper loadDevices() {
-        List<String> devices = isIos ? getIosDevices() : getAndroidDevices();
-        if (devices.size() == 0)
+    public synchronized DeviceHelper loadDevices() {
+        if (udid.isEmpty())
             throw new RuntimeException(String.format(LogMsg.NO_DEVICES_CONNECTED, appType));
-        for (String id : devices)
-            udid.putIfAbsent(id, true);
         return this;
     }
 
@@ -72,7 +71,7 @@ public class DeviceHelper {
         List<String> devices = CommandLine.execute(Command.IOS_DEVICE_COMMAND);
         devices.remove(Command.IOS_DEVICES_MSG);
         devices.remove(Command.IOS_SIMULATORS_MSG);
-        devices.remove(0);
+        if (!devices.isEmpty()) devices.remove(0);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
             if (!device.isEmpty()) {
