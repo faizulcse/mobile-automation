@@ -4,7 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.example.Global;
 import org.example.utils.AppiumHelper;
-import org.example.utils.ErrorMsg;
+import org.example.utils.InfoMsg;
 import org.example.utils.devices.DeviceType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -16,14 +16,14 @@ public class DriverSetup {
     public final static ThreadLocal<AppiumDriver<MobileElement>> driverThread = new ThreadLocal<>();
 
     public static void startDriver(DeviceType type) {
-        Logger.getLogger(ErrorMsg.ORG_OPEN_QA_SELENIUM).setLevel(Level.OFF);
+        Logger.getLogger(InfoMsg.ORG_OPEN_QA_SELENIUM).setLevel(Level.OFF);
         try {
             DesiredCapabilities caps = new CapsGenerator().getCaps(type);
             AppiumHelper appium = new AppiumHelper();
             AppiumDriver<MobileElement> driver = new AppiumDriver<>(appium.getUrl(), caps);
             driverThread.set(driver);
             appiumThread.set(appium);
-            System.out.printf(ErrorMsg.APP_INSTALLED_MSG, type.getPlatformName(), getAppPack());
+            System.out.printf(InfoMsg.APP_INSTALLED_MSG, type.getPlatformName(), getAppPack());
         } catch (Exception e) {
             e.printStackTrace();
         }

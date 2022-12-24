@@ -22,7 +22,7 @@ public class DeviceHelper {
     public DeviceHelper loadDevices() {
         List<String> devices = isIos ? getIosDevices() : getAndroidDevices();
         if (devices.size() == 0)
-            throw new RuntimeException(String.format(ErrorMsg.NO_DEVICES_CONNECTED, appType));
+            throw new RuntimeException(String.format(InfoMsg.NO_DEVICES_CONNECTED, appType));
         for (String id : devices)
             udid.putIfAbsent(id, true);
         return this;
@@ -54,7 +54,7 @@ public class DeviceHelper {
                     return deviceLock(device.getKey());
             }
         }
-        throw new RuntimeException(String.format(ErrorMsg.NO_AVAILABLE_DEVICES, appType));
+        throw new RuntimeException(String.format(InfoMsg.NO_AVAILABLE_DEVICES, appType));
     }
 
     private List<String> getAndroidDevices() {

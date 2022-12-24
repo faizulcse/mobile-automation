@@ -1,6 +1,6 @@
 package org.example.utils;
 
-public interface ErrorMsg {
+public interface InfoMsg {
     String APP_INSTALLED_MSG = "App(%s): ===> %s%n";
     String ORG_OPEN_QA_SELENIUM = "org.openqa.selenium";
     String APP_FILE_NOT_FOUND = "No such file [*%s] found.";
