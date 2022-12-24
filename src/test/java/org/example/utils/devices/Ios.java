@@ -6,14 +6,17 @@ public class Ios extends DeviceType {
     }
 
     public String getDeviceName() {
-        return String.format("%s %s", getId().split("\\s")[0], getId().split("\\s")[1]);
+        String[] words = getId().split(getPlatformVersion());
+        return String.format("%s", words[0].trim());
     }
 
     public String getPlatformVersion() {
-        return String.format("%s", getId().split("\\s")[1]);
+        String[] words = getId().split("\\s");
+        return String.format("%s", getId().split("\\s")[words.length - 2].trim());
     }
 
     public String getUdid() {
-        return String.format("%s", getId().split("\\s")[2]);
+        String[] words = getId().split("\\s");
+        return String.format("%s", getId().split("\\s")[words.length - 1].trim());
     }
 }

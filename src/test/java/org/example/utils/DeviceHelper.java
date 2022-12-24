@@ -75,12 +75,13 @@ public class DeviceHelper {
         devices.remove(0);
         List<String> list = new ArrayList<>();
         for (String device : devices) {
-            if (device.isEmpty()) break;
-            String[] words = device.replaceAll("\\(", "").replaceAll("\\)", "").split("\\s");
-            String udid = words[words.length - 1].trim();
-            String osVersion = words[words.length - 2].trim();
-            String deviceName = device.split(String.format("\\(%s\\)", osVersion))[0].trim();
-            list.add(String.format("%s %s %s", deviceName, osVersion, udid));
+            if (!device.isEmpty()) {
+                String[] words = device.replaceAll("\\(", "").replaceAll("\\)", "").split("\\s");
+                String udid = words[words.length - 1].trim();
+                String osVersion = words[words.length - 2].trim();
+                String deviceName = device.split(String.format("\\(%s\\)", osVersion))[0].trim();
+                list.add(String.format("%s %s %s", deviceName, osVersion, udid));
+            }
         }
         return list;
     }
