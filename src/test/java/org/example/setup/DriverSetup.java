@@ -2,7 +2,6 @@ package org.example.setup;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import org.example.Global;
 import org.example.utils.AppiumHelper;
 import org.example.utils.LogMsg;
 import org.example.utils.devices.DeviceType;
@@ -30,7 +29,11 @@ public class DriverSetup {
     }
 
     public static String getAppPack() {
-        return driverThread.get().getCapabilities().getCapability(Global.isIos ? "bundleId" : "appPackage").toString();
+        return driverThread.get().getCapabilities().getCapability("appPackage").toString();
+    }
+
+    public static String getBundleId() {
+        return driverThread.get().getCapabilities().getCapability("bundleId").toString();
     }
 
     public static AppiumDriver<MobileElement> getAppiumDriver() {

@@ -6,6 +6,6 @@ import org.example.pages.apps.LoginPage;
 public class LoginIos extends LoginPage {
     @Override
     public void printAppType() {
-        System.out.println(Global.appType);
+        System.out.println(Global.appPlatform);
     }
 }

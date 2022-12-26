@@ -2,6 +2,8 @@ package org.example;
 
 import org.example.utils.ResourceHelper;
 
+import java.io.File;
+
 public interface Global {
     ResourceHelper app = new ResourceHelper("app-config").getBundle();
     String automationName = app.getString("AUTOMATION_NAME");
@@ -10,7 +12,14 @@ public interface Global {
     String consoleLog = app.getString("CONSOLE");
 
     String langName = app.getString("LANGUAGE").toLowerCase();
-    String appType = app.getString("APP_TYPE").toLowerCase();
-    boolean isIos = appType.equals("ios");
-    String deviceName = app.getString(isIos ? "IOS_DEVICE" : "ANDROID_DEVICE");
+    String appPlatform = app.getString("APP_PLATFORM").toLowerCase();
+    boolean isIos = appPlatform.equals("ios");
+    String iosApp = app.getString("IOS_APP");
+    String iosDevice = app.getString("IOS_DEVICE");
+    String androidApp = app.getString("ANDROID_APP");
+    String androidDevice = app.getString("ANDROID_DEVICE");
+
+    String rootDir = System.getProperty("user.dir") + File.separator;
+    String env = rootDir + "src/test/java/org/example/utils/data/env.json";
+    String screenshots = rootDir + "screenshots/";
 }

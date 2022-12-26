@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.apache.commons.io.FileUtils;
+import org.example.Global;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -13,13 +14,9 @@ import java.net.Socket;
 import java.net.URL;
 
 public class FileHelper {
-    public static String rootDir = System.getProperty("user.dir") + File.separator;
-    public static String screenshotDir = rootDir + "screenshots/";
-
-
     public static String findFile(String name) {
         try {
-            File[] list = new File(rootDir).listFiles((dir, file) -> file.endsWith(name));
+            File[] list = new File(Global.rootDir).listFiles((dir, file) -> file.endsWith(name));
             return list != null ? list[0].getAbsolutePath() : null;
         } catch (Exception e) {
             throw new RuntimeException(String.format(LogMsg.APP_FILE_NOT_FOUND, name));
@@ -27,7 +24,7 @@ public class FileHelper {
     }
 
     public static EnvHelper getEnv(String appPack) {
-        String file = JsonHelper.readJsonFile(rootDir + "src/test/java/org/example/utils/data/env.json");
+        String file = JsonHelper.readJsonFile(Global.env);
         JsonObject envList = new JsonObject();
         try {
             envList = JsonHelper.getJsonObject(file);
@@ -41,7 +38,7 @@ public class FileHelper {
     public static void takeScreenShot(AppiumDriver<MobileElement> driver, String screenshot) {
         if (driver != null) {
             String platformName = "_" + driver.getCapabilities().getCapability("platformName");
-            String screenShotPath = screenshotDir + cleanString(screenshot) + platformName + ".png";
+            String screenShotPath = Global.screenshots + cleanString(screenshot) + platformName + ".png";
             try {
                 File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                 FileUtils.copyFile(screenshotFile, new File(screenShotPath));

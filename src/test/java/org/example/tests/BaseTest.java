@@ -15,17 +15,16 @@ import java.lang.reflect.Method;
 public class BaseTest implements Global {
     public ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
     public ThreadLocal<String> testThread = new ThreadLocal<>();
-    public DeviceHelper deviceHelper = new DeviceHelper(appType);
+    public DeviceHelper deviceHelper = new DeviceHelper(appPlatform);
     public EnvHelper env;
 
     @BeforeMethod
     public void setUp(Method method) {
         String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
-        DeviceType deviceType = deviceHelper.loadDevices().getDevice(deviceName);
+        DeviceType deviceType = deviceHelper.loadDevices().getDevice(isIos ? iosDevice : androidDevice);
 
         DriverSetup.startDriver(deviceType);
-        String appPack = DriverSetup.getAppPack();
-        env = FileHelper.getEnv("com.example.org");
+        env = FileHelper.getEnv(Global.isIos ? "com.example.android" : "com.example.ios");
 
         testThread.set(test);
         deviceThread.set(deviceType);
