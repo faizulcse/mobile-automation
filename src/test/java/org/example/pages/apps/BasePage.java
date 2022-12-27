@@ -8,6 +8,7 @@ import io.appium.java_client.touch.offset.PointOption;
 import org.example.Global;
 import org.example.pages.Page;
 import org.example.setup.DriverSetup;
+import org.example.utils.LogMsg;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -23,7 +24,7 @@ public class BasePage implements Page, Global {
 
     @Override
     public void back() {
-        throw new RuntimeException("Method not implemented yet.");
+        throw new RuntimeException(LogMsg.METHOD_NOT_IMPLEMENTED);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class BasePage implements Page, Global {
 
     @Override
     public void scrollToTop() {
-        throw new RuntimeException("Method not implemented yet.");
+        throw new RuntimeException(LogMsg.METHOD_NOT_IMPLEMENTED);
     }
 
     @Override
