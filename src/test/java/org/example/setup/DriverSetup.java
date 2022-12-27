@@ -22,7 +22,6 @@ public class DriverSetup {
             AppiumDriver<MobileElement> driver = new AppiumDriver<>(appium.getUrl(), caps);
             driverThread.set(driver);
             appiumThread.set(appium);
-            System.out.printf(LogMsg.APP_INSTALLED, type.getPlatformName(), getAppPack());
         } catch (Exception e) {
             e.printStackTrace();
         }

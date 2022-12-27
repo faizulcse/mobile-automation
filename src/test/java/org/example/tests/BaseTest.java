@@ -5,6 +5,7 @@ import org.example.setup.DriverSetup;
 import org.example.utils.DeviceHelper;
 import org.example.utils.EnvHelper;
 import org.example.utils.FileHelper;
+import org.example.utils.LogMsg;
 import org.example.utils.devices.DeviceType;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -21,6 +22,7 @@ public class BaseTest implements Global {
     @BeforeMethod
     public void setUp(Method method) {
         String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
+        System.out.printf(LogMsg.TEST_CASE_NAME, appPlatform, test);
         DeviceType deviceType = deviceHelper.loadDevices().getDevice(isIos ? iosDevice : androidDevice);
 
         DriverSetup.startDriver(deviceType);
