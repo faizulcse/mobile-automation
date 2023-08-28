@@ -1,14 +1,16 @@
-# Teq-UI-Automation
+# Mobile-Automation
 
 ### Setup project:
 
 - Clone git repo using `https://github.com/faizulcse/mobile-automation.git`
 - Install **node.js** [download](https://nodejs.org/en/download/) link
 - Install **appium** using npm command `npm install -g --force appium`
+- Install **uiautomator2** using npm command `appium driver install uiautomator2`
+- Install **xcuitest** using npm command `appium driver install xcuitest`
 
-**Add ENV variables:**
+**Setup macOS Environment variable and PATH:**
 
-- `export JAVA_HOME=/Users/username/Library/Android/sdk`
+- `export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home`
 - `export ANDROID_HOME=/Users/username/Library/Android/sdk`
 
 **Add PATH ENV variables:**
@@ -20,7 +22,9 @@
 ### Run Tests:
 
 - Before run tests **APK** or **IPA** file should be placed in the project root dir
-- From `src/test/resources/app-config.properties` rename `APP_TYPE=android` or `APP_TYPE=ios`
+- Update Android app config: `src/test/resources/android.properties`
+- Update iOS app config: `src/test/resources/ios.properties`
 - Open terminal
 - Go to project root directory
-- Run `mvn clean test`
+- Run android app: `mvn clean test`
+- Run iOS app: `mvn clean test -DIOS=true`

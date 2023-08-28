@@ -1,10 +1,10 @@
 {
-  "com.example.android": {
+  "android": {
     "username": "User1234",
     "password": "Pass@1234",
     "email": "user@yopmail.com"
   },
-  "com.example.ios": {
+  "ios": {
     "username": "User1234",
     "password": "Pass@1234",
     "email": "user@yopmail.com"

@@ -1,50 +1,30 @@
 package org.example.setup;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import org.example.utils.AppiumHelper;
-import org.example.utils.LogMsg;
-import org.example.utils.devices.DeviceType;
+import io.appium.java_client.ios.IOSDriver;
+import org.example.GlobalConfig;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.URL;
+import java.time.Duration;
 
-public class DriverSetup {
-    public final static ThreadLocal<AppiumHelper> appiumThread = new ThreadLocal<>();
-    public final static ThreadLocal<AppiumDriver<MobileElement>> driverThread = new ThreadLocal<>();
+public class DriverSetup extends GlobalConfig {
+    public static AppiumDriver driver;
 
-    public static void startDriver(DeviceType type) {
-        Logger.getLogger(LogMsg.ORG_OPEN_QA_SELENIUM).setLevel(Level.OFF);
+    public static void startDriver(String appiumUrl) {
         try {
-            DesiredCapabilities caps = new CapsGenerator().getCaps(type);
-            AppiumHelper appium = new AppiumHelper();
-            AppiumDriver<MobileElement> driver = new AppiumDriver<>(appium.getUrl(), caps);
-            driverThread.set(driver);
-            appiumThread.set(appium);
+            DesiredCapabilities caps = new CapsGenerator().getAppCapabilities(appType);
+            driver = isIos ? new IOSDriver(new URL(appiumUrl), caps) : new AppiumDriver(new URL(appiumUrl), caps);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Integer.parseInt(appConfig.getString("IMPLICIT_WAIT"))));
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }
-
-    public static String getAppPack() {
-        return driverThread.get().getCapabilities().getCapability("appPackage").toString();
-    }
-
-    public static String getBundleId() {
-        return driverThread.get().getCapabilities().getCapability("bundleId").toString();
-    }
-
-    public static AppiumDriver<MobileElement> getAppiumDriver() {
-        return driverThread.get();
     }
 
     public static void closeDriver() {
         try {
-            if (driverThread.get() != null) driverThread.get().quit();
-            if (appiumThread.get() != null) appiumThread.get().stopServer();
-        } catch (Exception e) {
-            e.printStackTrace();
+            driver.quit();
+        } catch (Exception ignored) {
         }
     }
 }

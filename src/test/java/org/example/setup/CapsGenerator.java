@@ -1,42 +1,51 @@
 package org.example.setup;
 
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
-import io.appium.java_client.remote.AutomationName;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import org.example.Global;
-import org.example.utils.FileHelper;
-import org.example.utils.devices.DeviceType;
-import org.openqa.selenium.Platform;
+import org.example.GlobalConfig;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class CapsGenerator {
+import java.io.File;
+import java.util.Objects;
 
-    public DesiredCapabilities getCaps(DeviceType device) {
-        String lang = "en";
-        String locale = "us";
+public class CapsGenerator extends GlobalConfig {
+    public DesiredCapabilities getAppCapabilities(String appType) {
+        File[] appPath = Objects.requireNonNull(new File(rootDir).listFiles((dir, file) -> file.endsWith(appConfig.getString("APP"))));
+        if (appPath.length == 0)
+            throw new RuntimeException(String.format("ERROR! Invalid %S app path '%s'", appType, rootDir));
+
         DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability(MobileCapabilityType.DEVICE_NAME, device.getDeviceName());
-        caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, device.getPlatformVersion());
-        if (Global.isIos) {
-            caps.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
-            caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
-            caps.setCapability(MobileCapabilityType.UDID, device.getUdid());
-            caps.setCapability(MobileCapabilityType.APP, FileHelper.findFile(Global.iosApp));
-            caps.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, true);
-            caps.setCapability(MobileCapabilityType.LANGUAGE, lang + "_" + locale);
-        } else {
-            caps.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.ANDROID);
-            caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
-            caps.setCapability(MobileCapabilityType.UDID, device.getDeviceName());
-            caps.setCapability(MobileCapabilityType.APP, FileHelper.findFile(Global.androidApp));
-            caps.setCapability(AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, "*");
-            caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, true);
-            caps.setCapability(MobileCapabilityType.LANGUAGE, lang);
+        switch (appType) {
+            case "ios":
+                caps.setCapability(MobileCapabilityType.DEVICE_NAME, appConfig.getString("DEVICE_NAME"));
+                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, appConfig.getString("PLATFORM_NAME"));
+                caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, appConfig.getString("PLATFORM_VERSION"));
+                caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, appConfig.getString("AUTOMATION_NAME"));
+                caps.setCapability(MobileCapabilityType.UDID, appConfig.getString("UDID"));
+                caps.setCapability(MobileCapabilityType.APP, appPath[0].getAbsolutePath());
+                caps.setCapability(IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS, appConfig.getString("AUTO_ACCEPT_ALERTS"));
+                caps.setCapability(MobileCapabilityType.FULL_RESET, appConfig.getString("FULL_RESET"));
+                caps.setCapability(MobileCapabilityType.NO_RESET, appConfig.getString("NO_RESET"));
+                caps.setCapability(MobileCapabilityType.LANGUAGE, "en");
+                caps.setCapability(MobileCapabilityType.LOCALE, "us");
+                return caps;
+            case "android":
+                caps.setCapability(MobileCapabilityType.DEVICE_NAME, appConfig.getString("DEVICE_NAME"));
+                caps.setCapability(MobileCapabilityType.PLATFORM_NAME, appConfig.getString("PLATFORM_NAME"));
+                caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, appConfig.getString("PLATFORM_VERSION"));
+                caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, appConfig.getString("AUTOMATION_NAME"));
+                caps.setCapability(MobileCapabilityType.UDID, appConfig.getString("UDID"));
+                caps.setCapability(MobileCapabilityType.APP, appPath[0].getAbsolutePath());
+                caps.setCapability(AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, "*");
+                caps.setCapability(AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS, appConfig.getString("AUTO_GRANT_PERMISSIONS"));
+                caps.setCapability(MobileCapabilityType.FULL_RESET, appConfig.getString("FULL_RESET"));
+                caps.setCapability(MobileCapabilityType.NO_RESET, appConfig.getString("NO_RESET"));
+                caps.setCapability(MobileCapabilityType.LANGUAGE, "en");
+                caps.setCapability(MobileCapabilityType.LOCALE, "us");
+                return caps;
+            default:
+                throw new RuntimeException(String.format("Unknown App type: %s", appType));
         }
-        caps.setCapability(MobileCapabilityType.LOCALE, locale);
-        caps.setCapability(MobileCapabilityType.FULL_RESET, true);
-        caps.setCapability(MobileCapabilityType.NO_RESET, false);
-        return caps;
     }
 }

@@ -1,41 +1,45 @@
 package org.example.tests;
 
-import org.example.Global;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.example.setup.DriverSetup;
-import org.example.utils.DeviceHelper;
-import org.example.utils.EnvHelper;
+import org.example.utils.AppiumHelper;
 import org.example.utils.FileHelper;
-import org.example.utils.LogMsg;
-import org.example.utils.devices.DeviceType;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
 import java.lang.reflect.Method;
 
-public class BaseTest implements Global {
-    public ThreadLocal<DeviceType> deviceThread = new ThreadLocal<>();
-    public ThreadLocal<String> testThread = new ThreadLocal<>();
-    public DeviceHelper deviceHelper = new DeviceHelper(appPlatform);
-    public EnvHelper env;
+public class BaseTest extends DriverSetup {
+    AppiumDriverLocalService service;
+    String appiumUrl = serverUrl;
+
+    @BeforeTest
+    public void beforeTest() {
+        if (!AppiumHelper.isActive(serverUrl)) {
+            service = AppiumHelper.getAppiumService();
+            service.start();
+            appiumUrl = service.getUrl().toString();
+        }
+    }
+
+    @AfterTest
+    public void afterTest() {
+        if (service != null && service.isRunning()) {
+            service.stop();
+        }
+    }
 
     @BeforeMethod
     public void setUp(Method method) {
-        String test = method.getDeclaringClass().getSimpleName() + "_" + method.getName();
-        System.out.printf(LogMsg.TEST_CASE_NAME, appPlatform, test);
-        DeviceType deviceType = deviceHelper.loadDevices().getDevice(isIos ? iosDevice : androidDevice);
-
-        DriverSetup.startDriver(deviceType);
-        env = FileHelper.getEnv(Global.isIos ? "com.example.android" : "com.example.ios");
-
-        testThread.set(test);
-        deviceThread.set(deviceType);
+        DriverSetup.startDriver(appiumUrl);
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        FileHelper.takeScreenShot(DriverSetup.getAppiumDriver(), testThread.get());
+        FileHelper.takeScreenShot(driver, result.getName());
         DriverSetup.closeDriver();
-        deviceHelper.deviceUnlock(deviceThread.get().getId());
     }
 }
