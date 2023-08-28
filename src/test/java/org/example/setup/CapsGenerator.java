@@ -28,7 +28,7 @@ public class CapsGenerator extends GlobalConfig {
                 caps.setCapability(MobileCapabilityType.FULL_RESET, appConfig.getString("FULL_RESET"));
                 caps.setCapability(MobileCapabilityType.NO_RESET, appConfig.getString("NO_RESET"));
                 caps.setCapability(MobileCapabilityType.LANGUAGE, "en");
-                caps.setCapability(MobileCapabilityType.LOCALE, "us");
+                caps.setCapability(MobileCapabilityType.LOCALE, "en_us");
                 return caps;
             case "android":
                 caps.setCapability(MobileCapabilityType.DEVICE_NAME, appConfig.getString("DEVICE_NAME"));
