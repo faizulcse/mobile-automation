@@ -1,6 +1,7 @@
 package org.example.tests;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.example.GlobalConfig;
 import org.example.setup.DriverSetup;
 import org.example.utils.AppiumHelper;
 import org.example.utils.FileHelper;
@@ -12,9 +13,10 @@ import org.testng.annotations.BeforeTest;
 
 import java.lang.reflect.Method;
 
-public class BaseTest extends DriverSetup {
+public class BaseTest extends GlobalConfig {
     AppiumDriverLocalService service;
     String appiumUrl = serverUrl;
+    DriverSetup setup;
 
     @BeforeTest
     public void beforeTest() {
@@ -34,12 +36,13 @@ public class BaseTest extends DriverSetup {
 
     @BeforeMethod
     public void setUp(Method method) {
-        DriverSetup.startDriver(appiumUrl);
+        setup = new DriverSetup();
+        setup.startDriver(appiumUrl);
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        FileHelper.takeScreenShot(driver, result.getName());
-        DriverSetup.closeDriver();
+        FileHelper.takeScreenShot(setup.getDriver(), result.getName());
+        setup.closeDriver();
     }
 }

@@ -1,6 +1,5 @@
 package org.example.pages.ios;
 
-import org.example.pages.BasePage;
 import org.example.pages.LoginPage;
 
 public class LoginIos extends BasePage implements LoginPage {

@@ -10,9 +10,4 @@ public class LoginTest extends BaseTest {
         var loginPage = isIos ? new LoginIos() : new LoginAndroid();
         loginPage.printAppType();
     }
-
-    @Test
-    public void validLoginTest2() {
-
-    }
 }

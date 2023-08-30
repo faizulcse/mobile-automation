@@ -1,6 +1,5 @@
 package org.example.pages.android;
 
-import org.example.pages.BasePage;
 import org.example.pages.LoginPage;
 
 public class LoginAndroid extends BasePage implements LoginPage {

@@ -9,9 +9,9 @@ import java.net.URL;
 import java.time.Duration;
 
 public class DriverSetup extends GlobalConfig {
-    public static AppiumDriver driver;
+    private AppiumDriver driver;
 
-    public static void startDriver(String appiumUrl) {
+    public void startDriver(String appiumUrl) {
         try {
             DesiredCapabilities caps = new CapsGenerator().getAppCapabilities(appType);
             driver = isIos ? new IOSDriver(new URL(appiumUrl), caps) : new AppiumDriver(new URL(appiumUrl), caps);
@@ -21,7 +21,11 @@ public class DriverSetup extends GlobalConfig {
         }
     }
 
-    public static void closeDriver() {
+    public AppiumDriver getDriver() {
+        return driver;
+    }
+
+    public void closeDriver() {
         try {
             driver.quit();
         } catch (Exception ignored) {
