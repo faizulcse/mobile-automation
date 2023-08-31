@@ -1,6 +1,7 @@
-package org.example.pages.android;
+package org.example.pages;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.example.setup.DriverSetup;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -10,15 +11,16 @@ import java.time.Duration;
 import java.util.Collections;
 
 public class BasePage extends DriverSetup {
-    AndroidDriver driver;
-
     public BasePage() {
-        this.driver = (AndroidDriver) getDriver();
-        PageFactory.initElements(this.driver, this);
+        PageFactory.initElements(driver, this);
     }
 
     public void hideKeyboard() {
-        driver.hideKeyboard();
+        if (driver instanceof IOSDriver)
+            ((IOSDriver) driver).hideKeyboard();
+        else
+            ((AndroidDriver) driver).hideKeyboard();
+
     }
 
     public void swipe(double x1, double y1, double x2, double y2) {

@@ -16,6 +16,15 @@
 - `export PATH=$PATH:$ANDROID_HOME/tools/bin`
 - `export PATH=$PATH:$ANDROID_HOME/tools`
 
+### Setup WebdriverAgent for iOS app
+
+- Open `Users/$USER/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj` with Xcode
+- Signing with AppleId
+- Update `com.facebook.wda.runner` with new bundle id
+- Build `WebDriverAgentRunner` using `product -> test` command
+- Accept `WebDriverAgentRunner` from iOS device
+- Run `npm install ios-deploy` if needed
+
 ### Run Tests:
 
 - Before run tests **APK** or **IPA** file should be placed in the project root dir
