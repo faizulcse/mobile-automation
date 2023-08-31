@@ -18,7 +18,7 @@
 
 ### Setup WebdriverAgent for iOS app
 
-- Open `appium-webdriveragent/WebDriverAgent.xcodeproj` with Xcode
+- Open `Users/$USER/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj` with Xcode
 - Signing with AppleId
 - Update `com.facebook.wda.runner` with new bundle id
 - Build `WebDriverAgentRunner` using `product -> test` command
