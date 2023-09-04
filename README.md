@@ -34,5 +34,5 @@
 - Go to project root directory
 - Run android app: `mvn clean test`
 - Run iOS app: `mvn clean test -DIOS=true`
-- Run android suite file **testng.xml**: `mvn clean test -Dsuitefile=testng.xml`
-- Run iOS suite file **testng.xml**: `mvn clean test -DIOS=true -Dsuitefile=testng.xml`
+- Run android suite file **testng.xml**: `mvn clean test -Dsuitefile=smoke.xml`
+- Run iOS suite file **testng.xml**: `mvn clean test -DIOS=true -Dsuitefile=smoke.xml`
